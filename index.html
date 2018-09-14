@@ -5,11 +5,43 @@
     <title>Rock Paper Scissors</title>
 </head>
 <body>
-    <script>
 
+    <button id="rock">Rock</button>
+    <button id="paper">Paper</button>
+    <button id="scissors">Scissors</button>
+    <div id="results"></div>   
+
+    <script>
+      
+        const rock = document.querySelector("#rock");
+        const paper = document.querySelector("#paper");
+        const scissors = document.querySelector("#scissors");
+        const div = document.querySelector("div#results")
+        let displayWin = document.createElement("p");
+        let displayLose = document.createElement("p");
+        let currentResults = document.createElement("p");
+        let bestWinner = document.createElement("h1");
+        
+        let choice; 
+        let computerSelection;
+        let scoreWin = 0;
+        let scoreLose = 0;
+        let roundResults = "";
+
+        rock.addEventListener("click", playRound);
+        paper.addEventListener("click", playRound);
+        scissors.addEventListener("click", playRound);
+        displayWin.textContent = "Wins: " + scoreWin;
+        displayLose.textContent = "Loses: " + scoreLose;
+        currentResults.textContent = roundResults;
+        div.appendChild(displayWin);
+        div.appendChild(displayLose);
+        div.appendChild(currentResults);  
+        div.appendChild(bestWinner);  
 
 //generating random number between 0-2
    function computerPlay() {
+    debugger;
         let randomNum = Math.floor(Math.random()*3)
         switch (randomNum) {
             case 0:
@@ -26,71 +58,62 @@
         } 
     }
    
-    let playerSelection; 
-    let computerSelection;
-    let scoreWin = 0;
-    let scoreLose = 0;
+  
 
 //function to play one round
-    function playRound() {
-        playerSelection = prompt("Rock, paper or scissors? :)").toLowerCase();
+    function playRound(e) {   
+        if (scoreWin==5 || scoreLose==5){
+            return;
+        }
+        else {
+        choice = e.target.innerHTML.toLowerCase();
         computerSelection = computerPlay();
-        if (playerSelection == "rock") {
+        if (choice == "rock") {
             switch (computerSelection) {
                 case "rock":
-                return "Tied!";
-            
+                roundResults= "Tied!";
+                break;       
                 case "paper":
                 scoreLose++
-                return "You Lose! Paper beats Rock";
-               
+                roundResults = "You Lose! Paper beats Rock";
+                break;    
                 case "scissors":
                 scoreWin++
-                return "You Win! Rock beats Scissors";
-                
+                roundResults = "You Win! Rock beats Scissors";
+                break;
         }
-    } else if (playerSelection == "paper") {
+    } else if (choice == "paper") {
         switch (computerSelection) {
                 case "rock":
                 scoreWin++
-                return "You win! Paper beats Rock";
-            
+                roundResults = "You win! Paper beats Rock";
+                break;
                 case "paper":
-                return "Tied!";
-
+                roundResults = "Tied!";
+                break;
                 case "scissors":
                 scoreLose++
-                return "You Lose! Scissors beat Paper";
+                roundResults = "You Lose! Scissors beat Paper";
+                break;
     }} else {
         switch (computerSelection) {
                 case "rock":
                 scoreLose++
-                return "You Lose! Rock beats Scissors";
-            
+                roundResults = "You Lose! Rock beats Scissors";
+                break;
                 case "paper":
                 scoreWin++
-                return "You Win! Scissors beat Paper";
-
+                roundResults = "You Win! Scissors beat Paper";
+                break;
                 case "scissors":
-                return "Tied!";
-    }}}
-  
-    //function to play 5 rounds (with score)
-    function game() {
-        let i = 5;
-        while (i > 0) {
-            console.log(playRound());
-            i--
-        }
-        if (scoreWin > scoreLose) {
-            console.log("You win! " + scoreWin + ":" + scoreLose);
-        } else if (scoreWin < scoreLose) {
-            console.log("You lost! " + scoreWin + ":" + scoreLose);
-        } else {
-            console.log("Tied " + scoreWin + ":" + scoreLose);
-        }
-    }
-game();
+                roundResults = "Tied!";
+                break;
+    }}
+        displayWin.textContent = "Wins: " + scoreWin;
+        displayLose.textContent = "Loses: " + scoreLose;
+        currentResults.textContent = roundResults;
+        bestWinner.textContent = (scoreWin==5) ? "You are the Winner!" : (scoreLose==5) ? "You lost!" : ""
+    }}
 
     </script>  
 </body>
